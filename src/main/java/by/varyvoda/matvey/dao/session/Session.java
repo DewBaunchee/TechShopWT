@@ -1,12 +1,14 @@
 package by.varyvoda.matvey.dao.session;
 
 import by.varyvoda.matvey.dao.session.exception.SessionCommittedException;
+import by.varyvoda.matvey.entity.criteria.Query;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -22,13 +24,11 @@ public class Session<V> {
 
     private Scanner scanner;
 
-    private Class<V> vClass;
+    private Query<V> query;
 
     private List<V> result;
 
     private boolean isCommitted;
-
-    private INextEntityCallback<V> callback;
 
     public Session(File source) {
         this.source = source;
@@ -40,31 +40,35 @@ public class Session<V> {
         if(isCommitted)
             throw new SessionCommittedException("Unable to write: session is committed");
 
-        Files.write(Path.of(source.getAbsolutePath()), xmlMapper.writeValueAsBytes(value), StandardOpenOption.APPEND);
+        Files.write(
+                Path.of(source.getAbsolutePath()),
+                (xmlMapper.writeValueAsString(value) + "\n").getBytes(StandardCharsets.UTF_8),
+                StandardOpenOption.APPEND
+        );
     }
 
-    public Session<V> createQuery(INextEntityCallback<V> callback, Class<V> vClass) throws FileNotFoundException {
-        if (callback == null)
+    public Session<V> specifyQuery(Query<V> query) throws FileNotFoundException {
+        if (query == null)
             throw new IllegalArgumentException("Query is not specified.");
-        if (vClass == null)
-            throw new IllegalArgumentException("Value class is not specified.");
 
-        this.callback = callback;
-        this.vClass = vClass;
+        this.query = query;
         this.scanner = new Scanner(source);
         return this;
     }
 
-    public Session<V> commit() throws JsonProcessingException, SessionCommittedException {
+    public Session<V> commit() throws SessionCommittedException {
         if(isCommitted)
             throw new SessionCommittedException("Unable to commit: session is committed");
 
         result = new ArrayList<>();
         while (scanner.hasNextLine()) {
-            String xmlValue = scanner.nextLine();
-            V value = xmlMapper.readValue(xmlValue, vClass);
-            if (callback.isSuitable(value))
-                result.add(value);
+            try {
+                String xmlValue = scanner.nextLine();
+                V value = xmlMapper.readValue(xmlValue, query.getTargetClass());
+                if (query.isSuitable(value))
+                    result.add(value);
+            } catch (JsonProcessingException ignored) {
+            }
         }
 
         scanner.close();

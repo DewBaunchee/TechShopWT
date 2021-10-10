@@ -78,6 +78,7 @@ public class Laptop extends Appliance {
 
     public String toString () {
         return getClass().getSimpleName() + "("
+                + "Price = " + getPrice() + ", "
                 + "Battery capacity = " + getBatteryCapacity() + ", "
                 + "Operating system = " + getOperatingSystem().getLabelName() + ", "
                 + "Memory ROM = " + getMemoryRom() + ", "

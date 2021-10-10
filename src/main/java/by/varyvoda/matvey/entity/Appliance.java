@@ -9,9 +9,6 @@ import java.io.Serializable;
 @JsonSubTypes({
         @JsonSubTypes.Type(name = "Laptop", value = Laptop.class),
         @JsonSubTypes.Type(name = "Oven", value = Oven.class),
-        @JsonSubTypes.Type(name = "Refrigerator", value = Refrigerator.class),
-        @JsonSubTypes.Type(name = "Speakers", value = Speakers.class),
-        @JsonSubTypes.Type(name = "TabletPC", value = TabletPC.class),
         @JsonSubTypes.Type(name = "VacuumCleaner", value = VacuumCleaner.class),
 })
 public abstract class Appliance implements Serializable {

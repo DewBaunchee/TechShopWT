@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface IApplianceService {
 	
-	List<Appliance> find(Query criteria);
+	List<Appliance> get(Query<Appliance> query);
+
+	Appliance getCheapest();
 	
 }

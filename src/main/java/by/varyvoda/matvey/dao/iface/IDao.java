@@ -6,9 +6,7 @@ import java.util.List;
 
 public interface IDao<V> {
 
-	List<V> get(Query criteria);
-
-	List<V> getAll();
+	List<V> get(Query<V> criteria);
 
 	void save(V appliance);
 

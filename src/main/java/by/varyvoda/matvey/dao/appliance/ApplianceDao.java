@@ -10,26 +10,14 @@ import java.util.List;
 public class ApplianceDao extends AbstractDao<Appliance> {
 
     public ApplianceDao() {
-       super("appliances.xml");
+        super("appliances.xml");
     }
 
     @Override
-    public List<Appliance> get(Query criteria) {try {
-        return getSession()
-                .createQuery((appliance) -> true, Appliance.class)
-                .commit()
-                .getResult();
-    } catch (IOException e) {
-        e.printStackTrace();
-        return null;
-    }
-    }
-
-    @Override
-    public List<Appliance> getAll() {
+    public List<Appliance> get(Query<Appliance> query) {
         try {
             return getSession()
-                    .createQuery((appliance) -> true, Appliance.class)
+                    .specifyQuery(query)
                     .commit()
                     .getResult();
         } catch (IOException e) {

@@ -64,6 +64,7 @@ public class Oven extends Appliance {
 
     public String toString () {
         return getClass().getSimpleName() + "("
+                + "Price = " + getPrice() + ", "
                 + "Power consumption = " + getPowerConsumption() + ", "
                 + "Weight = " + getWeight() + ", "
                 + "Capacity = " + getCapacity() + ", "

@@ -106,6 +106,7 @@ public class VacuumCleaner extends Appliance {
 
     public String toString () {
         return getClass().getSimpleName() + "("
+                + "Price = " + getPrice() + ", "
                 + "Power consumption = " + getPowerConsumption() + ", "
                 + "Filter type = " + getFilterType().getLabelName() + ", "
                 + "Bag type = " + getBagType().getLabelName() + ", "
