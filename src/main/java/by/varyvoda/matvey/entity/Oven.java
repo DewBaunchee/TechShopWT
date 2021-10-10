@@ -1,5 +1,9 @@
 package by.varyvoda.matvey.entity;
 
+/**
+ * @author Matvey Varyvoda
+ * @since 09.10.2021
+ */
 public class Oven extends Appliance {
 
     private Integer powerConsumption;
@@ -14,6 +18,9 @@ public class Oven extends Appliance {
 
     private Double width;
 
+    /**
+     * @return returns power consumption of oven
+     * */
     public Integer getPowerConsumption() {
         return powerConsumption;
     }
@@ -22,6 +29,9 @@ public class Oven extends Appliance {
         this.powerConsumption = powerConsumption;
     }
 
+    /**
+     * @return returns weight of oven
+     * */
     public Integer getWeight() {
         return weight;
     }
@@ -30,6 +40,9 @@ public class Oven extends Appliance {
         this.weight = weight;
     }
 
+    /**
+     * @return returns capacity of oven
+     * */
     public Integer getCapacity() {
         return capacity;
     }
@@ -38,6 +51,9 @@ public class Oven extends Appliance {
         this.capacity = capacity;
     }
 
+    /**
+     * @return returns depth of oven
+     * */
     public Integer getDepth() {
         return depth;
     }
@@ -46,6 +62,9 @@ public class Oven extends Appliance {
         this.depth = depth;
     }
 
+    /**
+     * @return returns height of oven
+     * */
     public Double getHeight() {
         return height;
     }
@@ -54,6 +73,9 @@ public class Oven extends Appliance {
         this.height = height;
     }
 
+    /**
+     * @return returns width of oven
+     * */
     public Double getWidth() {
         return width;
     }

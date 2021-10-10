@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.io.Serializable;
 
+/**
+ * @author Matvey Varyvoda
+ * @since 09.10.2021
+ * */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
 @JsonSubTypes({
         @JsonSubTypes.Type(name = "Laptop", value = Laptop.class),
@@ -19,6 +23,9 @@ public abstract class Appliance implements Serializable {
 
     }
 
+    /**
+     * @return returns price of appliance
+     * */
     public Integer getPrice() {
         return price;
     }

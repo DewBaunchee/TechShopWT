@@ -1,0 +1,11 @@
+by.varyvoda.matvey
+by.varyvoda.matvey.dao
+by.varyvoda.matvey.dao.appliance
+by.varyvoda.matvey.dao.iface
+by.varyvoda.matvey.dao.session
+by.varyvoda.matvey.dao.session.exception
+by.varyvoda.matvey.entity
+by.varyvoda.matvey.entity.criteria
+by.varyvoda.matvey.main
+by.varyvoda.matvey.service
+by.varyvoda.matvey.service.iface

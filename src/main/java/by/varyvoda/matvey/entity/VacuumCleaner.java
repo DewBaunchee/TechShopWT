@@ -1,5 +1,9 @@
 package by.varyvoda.matvey.entity;
 
+/**
+ * @author Matvey Varyvoda
+ * @since 09.10.2021
+ */
 public class VacuumCleaner extends Appliance {
 
     private Integer powerConsumption;
@@ -14,6 +18,9 @@ public class VacuumCleaner extends Appliance {
 
     private Integer cleaningWidth;
 
+    /**
+     * @return returns power consumption of vacuum cleaner
+     * */
     public Integer getPowerConsumption() {
         return powerConsumption;
     }
@@ -22,6 +29,9 @@ public class VacuumCleaner extends Appliance {
         this.powerConsumption = powerConsumption;
     }
 
+    /**
+     * @return returns filter type of vacuum cleaner
+     * */
     public FilterType getFilterType() {
         return filterType;
     }
@@ -30,6 +40,9 @@ public class VacuumCleaner extends Appliance {
         this.filterType = filterType;
     }
 
+    /**
+     * @return returns bag type of vacuum cleaner
+     * */
     public BagType getBagType() {
         return bagType;
     }
@@ -38,6 +51,9 @@ public class VacuumCleaner extends Appliance {
         this.bagType = bagType;
     }
 
+    /**
+     * @return returns wand type of vacuum cleaner
+     * */
     public WandType getWandType() {
         return wandType;
     }
@@ -46,6 +62,9 @@ public class VacuumCleaner extends Appliance {
         this.wandType = wandType;
     }
 
+    /**
+     * @return returns motor speed regulation of vacuum cleaner
+     * */
     public Integer getMotorSpeedRegulation() {
         return motorSpeedRegulation;
     }
@@ -54,6 +73,9 @@ public class VacuumCleaner extends Appliance {
         this.motorSpeedRegulation = motorSpeedRegulation;
     }
 
+    /**
+     * @return returns cleaning width of vacuum cleaner
+     * */
     public Integer getCleaningWidth() {
         return cleaningWidth;
     }
@@ -104,7 +126,7 @@ public class VacuumCleaner extends Appliance {
         }
     }
 
-    public String toString () {
+    public String toString() {
         return getClass().getSimpleName() + "("
                 + "Price = " + getPrice() + ", "
                 + "Power consumption = " + getPowerConsumption() + ", "

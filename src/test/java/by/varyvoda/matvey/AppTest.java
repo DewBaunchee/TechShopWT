@@ -1,25 +1,36 @@
 package by.varyvoda.matvey;
 
-import by.varyvoda.matvey.dao.DaoFactory;
 import by.varyvoda.matvey.entity.Appliance;
 import by.varyvoda.matvey.entity.Laptop;
 import by.varyvoda.matvey.entity.Oven;
 import by.varyvoda.matvey.entity.VacuumCleaner;
 import by.varyvoda.matvey.entity.criteria.Query;
+import by.varyvoda.matvey.entity.criteria.SearchCriteria;
 import by.varyvoda.matvey.main.PrintApplianceInfo;
 import by.varyvoda.matvey.service.ServiceFactory;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-public class AppTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
-    public void testFillSource() {
+@RunWith(JUnit4.class)
+public class AppTest {
+
+    /**
+     * Filling XML-file with appliances:
+     * 3 laptops,
+     * 3 ovens,
+     * 3 vacuum cleaners.
+     */
+    @BeforeClass
+    public static void beforeAll() {
         try {
             System.out.println("Filling source: ");
             Files.write(Path.of("appliances.xml"), new byte[0]);
@@ -37,6 +48,24 @@ public class AppTest extends TestCase {
         }
     }
 
+    /**
+     * Searching ovens which power consumption equals to 1000
+     */
+    @Test
+    public void testGetOvensByPowerConsumption() {
+        System.out.println("Ovens with power consumption = 1000:");
+        List<Appliance> appliances = ServiceFactory.getInstance().getApplianceService().get(
+                new Query<Appliance>(Oven.class)
+                        .add(SearchCriteria.OvenCriteria.POWER_CONSUMPTION, 1000)
+        );
+        appliances.forEach(PrintApplianceInfo::print);
+        assertEquals(Integer.valueOf(1000), ((Oven) appliances.get(0)).getPowerConsumption());
+    }
+
+    /**
+     * Getting all ovens in source
+     */
+    @Test
     public void testAllOvens() {
         System.out.println("Test all ovens:");
         List<Appliance> appliances = ServiceFactory
@@ -47,6 +76,10 @@ public class AppTest extends TestCase {
         assertEquals(3, appliances.size());
     }
 
+    /**
+     * Getting the cheapest appliance
+     */
+    @Test
     public void testCheapest() {
         System.out.println("Test cheapest:");
         Appliance appliance = ServiceFactory
@@ -57,7 +90,7 @@ public class AppTest extends TestCase {
         assertEquals(Integer.valueOf(1), appliance.getPrice());
     }
 
-    private void fillLaptops() {
+    private static void fillLaptops() {
         Laptop laptop1 = new Laptop();
         laptop1.setPrice(6);
         laptop1.setBatteryCapacity(1.0);
@@ -66,7 +99,7 @@ public class AppTest extends TestCase {
         laptop1.setSystemMemory(1000);
         laptop1.setCpu(1.2);
         laptop1.setDisplayInches(18);
-        DaoFactory.getInstance().getApplianceDao().save(laptop1);
+        ServiceFactory.getInstance().getApplianceService().save(laptop1);
         Laptop laptop2 = new Laptop();
         laptop2.setPrice(1);
         laptop2.setBatteryCapacity(1.5);
@@ -75,7 +108,7 @@ public class AppTest extends TestCase {
         laptop2.setSystemMemory(1000);
         laptop2.setCpu(2.2);
         laptop2.setDisplayInches(19);
-        DaoFactory.getInstance().getApplianceDao().save(laptop2);
+        ServiceFactory.getInstance().getApplianceService().save(laptop2);
         Laptop laptop3 = new Laptop();
         laptop3.setPrice(11);
         laptop3.setBatteryCapacity(3.0);
@@ -84,10 +117,10 @@ public class AppTest extends TestCase {
         laptop3.setSystemMemory(1500);
         laptop3.setCpu(3.2);
         laptop3.setDisplayInches(22);
-        DaoFactory.getInstance().getApplianceDao().save(laptop3);
+        ServiceFactory.getInstance().getApplianceService().save(laptop3);
     }
 
-    private void fillOvens() {
+    private static void fillOvens() {
         Oven oven1 = new Oven();
         oven1.setPrice(61);
         oven1.setPowerConsumption(1000);
@@ -96,7 +129,7 @@ public class AppTest extends TestCase {
         oven1.setDepth(60);
         oven1.setHeight(45.5);
         oven1.setWidth(59.5);
-        DaoFactory.getInstance().getApplianceDao().save(oven1);
+        ServiceFactory.getInstance().getApplianceService().save(oven1);
         Oven oven2 = new Oven();
         oven2.setPrice(12);
         oven2.setPowerConsumption(1500);
@@ -105,7 +138,7 @@ public class AppTest extends TestCase {
         oven2.setDepth(60);
         oven2.setHeight(45.0);
         oven2.setWidth(68.0);
-        DaoFactory.getInstance().getApplianceDao().save(oven2);
+        ServiceFactory.getInstance().getApplianceService().save(oven2);
         Oven oven3 = new Oven();
         oven3.setPrice(13);
         oven3.setPowerConsumption(2000);
@@ -114,10 +147,10 @@ public class AppTest extends TestCase {
         oven3.setDepth(60);
         oven3.setHeight(40.0);
         oven3.setWidth(70.0);
-        DaoFactory.getInstance().getApplianceDao().save(oven3);
+        ServiceFactory.getInstance().getApplianceService().save(oven3);
     }
 
-    private void fillVacuumCleaners() {
+    private static void fillVacuumCleaners() {
         VacuumCleaner vacuumCleaner1 = new VacuumCleaner();
         vacuumCleaner1.setPrice(14);
         vacuumCleaner1.setPowerConsumption(100);
@@ -126,7 +159,7 @@ public class AppTest extends TestCase {
         vacuumCleaner1.setWandType(VacuumCleaner.WandType.ALL_IN_ONE);
         vacuumCleaner1.setMotorSpeedRegulation(3000);
         vacuumCleaner1.setCleaningWidth(20);
-        DaoFactory.getInstance().getApplianceDao().save(vacuumCleaner1);
+        ServiceFactory.getInstance().getApplianceService().save(vacuumCleaner1);
         VacuumCleaner vacuumCleaner2 = new VacuumCleaner();
         vacuumCleaner2.setPrice(15);
         vacuumCleaner2.setPowerConsumption(110);
@@ -135,7 +168,7 @@ public class AppTest extends TestCase {
         vacuumCleaner2.setWandType(VacuumCleaner.WandType.ALL_IN_ONE);
         vacuumCleaner2.setMotorSpeedRegulation(2900);
         vacuumCleaner2.setCleaningWidth(25);
-        DaoFactory.getInstance().getApplianceDao().save(vacuumCleaner2);
+        ServiceFactory.getInstance().getApplianceService().save(vacuumCleaner2);
         VacuumCleaner vacuumCleaner3 = new VacuumCleaner();
         vacuumCleaner3.setPrice(18);
         vacuumCleaner3.setPowerConsumption(90);
@@ -144,6 +177,6 @@ public class AppTest extends TestCase {
         vacuumCleaner3.setWandType(VacuumCleaner.WandType.ALL_IN_ONE);
         vacuumCleaner3.setMotorSpeedRegulation(2950);
         vacuumCleaner3.setCleaningWidth(30);
-        DaoFactory.getInstance().getApplianceDao().save(vacuumCleaner3);
+        ServiceFactory.getInstance().getApplianceService().save(vacuumCleaner3);
     }
 }

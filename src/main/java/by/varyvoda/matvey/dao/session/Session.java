@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * @author Matvey Varyvoda
+ * @since 09.10.2021
+ */
 public class Session<V> {
 
     private final File source;
@@ -24,7 +28,7 @@ public class Session<V> {
 
     private Scanner scanner;
 
-    private Query<V> query;
+    private Query query;
 
     private List<V> result;
 
@@ -36,8 +40,13 @@ public class Session<V> {
         this.xmlMapper = new XmlMapper();
     }
 
-    public void save(V value) throws IOException {
-        if(isCommitted)
+    /**
+     * @param value - value for saving
+     * @throws SessionCommittedException if session is already committed
+     * @throws JsonProcessingException   if value cannot be mapped
+     */
+    public void save(Object value) throws IOException {
+        if (isCommitted)
             throw new SessionCommittedException("Unable to write: session is committed");
 
         Files.write(
@@ -47,7 +56,12 @@ public class Session<V> {
         );
     }
 
-    public Session<V> specifyQuery(Query<V> query) throws FileNotFoundException {
+    /**
+     * @param query - query for searching
+     * @return instance of this session
+     * @throws FileNotFoundException if file not found
+     */
+    public Session<V> specifyQuery(Query<? extends V> query) throws FileNotFoundException {
         if (query == null)
             throw new IllegalArgumentException("Query is not specified.");
 
@@ -56,17 +70,21 @@ public class Session<V> {
         return this;
     }
 
+    /**
+     * @return instance of this session
+     * @throws SessionCommittedException if session is already committed
+     */
     public Session<V> commit() throws SessionCommittedException {
-        if(isCommitted)
+        if (isCommitted)
             throw new SessionCommittedException("Unable to commit: session is committed");
 
         result = new ArrayList<>();
         while (scanner.hasNextLine()) {
             try {
                 String xmlValue = scanner.nextLine();
-                V value = xmlMapper.readValue(xmlValue, query.getTargetClass());
+                Object value = xmlMapper.readValue(xmlValue, query.getTargetClass());
                 if (query.isSuitable(value))
-                    result.add(value);
+                    result.add((V) value);
             } catch (JsonProcessingException ignored) {
             }
         }
@@ -76,8 +94,12 @@ public class Session<V> {
         return this;
     }
 
+    /**
+     * @return instance of this session
+     * @throws SessionCommittedException if session not committed
+     */
     public List<V> getResult() throws SessionCommittedException {
-        if(!isCommitted)
+        if (!isCommitted)
             throw new SessionCommittedException("Unable to get result: session isn't committed");
 
         return result;

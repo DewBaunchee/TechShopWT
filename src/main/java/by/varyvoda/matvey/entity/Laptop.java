@@ -1,5 +1,9 @@
 package by.varyvoda.matvey.entity;
 
+/**
+ * @author Matvey Varyvoda
+ * @since 09.10.2021
+ */
 public class Laptop extends Appliance {
 
     private Double batteryCapacity;
@@ -14,6 +18,9 @@ public class Laptop extends Appliance {
 
     private Integer displayInches;
 
+    /**
+     * @return returns battery capacity of laptop
+     */
     public Double getBatteryCapacity() {
         return batteryCapacity;
     }
@@ -22,6 +29,9 @@ public class Laptop extends Appliance {
         this.batteryCapacity = batteryCapacity;
     }
 
+    /**
+     * @return returns OS of laptop
+     */
     public OperatingSystem getOperatingSystem() {
         return operatingSystem;
     }
@@ -30,6 +40,9 @@ public class Laptop extends Appliance {
         this.operatingSystem = operatingSystem;
     }
 
+    /**
+     * @return returns memory rom of laptop
+     */
     public Integer getMemoryRom() {
         return memoryRom;
     }
@@ -38,6 +51,9 @@ public class Laptop extends Appliance {
         this.memoryRom = memoryRom;
     }
 
+    /**
+     * @return returns system memory of laptop
+     */
     public Integer getSystemMemory() {
         return systemMemory;
     }
@@ -46,6 +62,9 @@ public class Laptop extends Appliance {
         this.systemMemory = systemMemory;
     }
 
+    /**
+     * @return returns cpu of laptop
+     */
     public Double getCpu() {
         return cpu;
     }
@@ -54,6 +73,9 @@ public class Laptop extends Appliance {
         this.cpu = cpu;
     }
 
+    /**
+     * @return returns display inches of laptop
+     */
     public Integer getDisplayInches() {
         return displayInches;
     }
@@ -76,7 +98,7 @@ public class Laptop extends Appliance {
         }
     }
 
-    public String toString () {
+    public String toString() {
         return getClass().getSimpleName() + "("
                 + "Price = " + getPrice() + ", "
                 + "Battery capacity = " + getBatteryCapacity() + ", "
